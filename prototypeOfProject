@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+k=1.38e-23
+T=300
+q=1.602e-19
+Iph=0.030
+Io=1e-10
+V=np.linspace(0,0.6,1000)
+I= Iph-Io*(np.exp(q*V/(k*T))-1)
+Isc=I[0]
+print("Isc=",Isc)
+Voc_ind=np.argmin(np.abs(I))
+Voc=V[Voc_ind]
+print("Voc=",Voc)
+P=I*V
+Pmax=np.max(P)
+print("Maximum Power:",Pmax)
+ind=np.argmax(P)
+Vmp=V[ind]
+Imp=I[ind]
+print("Imp:",Imp)
+print("Vmp:",Vmp)
+FF=Pmax/(Voc*Isc)
+print("Fill factor:",FF)
+plt.xlabel('Voltage(X)')
+plt.ylabel('Current(Y)')
+plt.grid()
+plt.plot(V,I)
+plt.show()
+plt.title("I-V Curve of Solar Cell")
