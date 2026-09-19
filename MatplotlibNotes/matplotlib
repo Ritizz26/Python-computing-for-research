@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 # Create a line plot
 # First argument = x-axis data, second argument = y-axis data
-plt.plot(V, I)
+#plt.plot(V, I)
 
 
 # Label the x-axis
@@ -28,13 +28,13 @@ plt.show()
 
 # Mark a specific point on the graph
 # Useful for highlighting values such as Isc
-plt.scatter(0, Isc)
+#plt.scatter(0, Isc)
 
 
 # Add text and an arrow pointing to a specific point
 plt.annotate(
-    f"Isc = {Isc:.3f} A",
-    xy=(0, Isc),
-    xytext=(0.08, Isc),
+    #f"Isc = {Isc:.3f} A",
+    #xy=(0, Isc),
+    #xytext=(0.08, Isc),
     arrowprops=dict(arrowstyle="->")
 )
