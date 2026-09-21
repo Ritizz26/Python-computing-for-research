@@ -1,23 +1,35 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.optimize import brentq
 k=1.38e-23
 T=300
 q=1.602e-19
 Iph=0.030
 Io=1e-10
-V=np.linspace(0,0.6,1000)
-I= Iph-Io*(np.exp(q*V/(k*T))-1)
-Isc=I[0]
+Rs=1
+n=1
+I_real=[]
+V=np.linspace(0,0.55,1000)
+I_ideal= Iph-Io*(np.exp(q*V/(k*T))-1)
+def solar_equation(I_real,V):
+    return I_real-Iph+Io*(np.exp(q*(V+I_real*Rs)/(n*k*T))-1)
+
+for v in V:
+    i=brentq(solar_equation,-0.1,0.1,args=(v,))
+    I_real.append(i)
+
+I_real=np.array(I_real)
+Isc=I_ideal[0]
 print("Isc=",Isc)
-Voc_ind=np.argmin(np.abs(I))
+Voc_ind=np.argmin(np.abs(I_ideal))
 Voc=V[Voc_ind]
 print("Voc=",Voc)
-P=I*V
+P=I_ideal*V
 Pmax=np.max(P)
 print("Maximum Power:",Pmax)
 ind=np.argmax(P)
 Vmp=V[ind]
-Imp=I[ind]
+Imp=I_ideal[ind]
 print("Imp:",Imp)
 print("Vmp:",Vmp)
 FF=Pmax/(Voc*Isc)
@@ -25,6 +37,8 @@ print("Fill factor:",FF)
 plt.xlabel('Voltage(X)')
 plt.ylabel('Current(Y)')
 plt.grid()
-plt.plot(V,I)
+plt.plot(V,I_ideal,label='Ideal I-V Curve')
+plt.plot(V,I_real,label='Real I-V Curve')
+plt.legend()
 plt.show()
 plt.title("I-V Curve of Solar Cell")
